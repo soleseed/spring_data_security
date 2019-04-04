@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>action is everything</title>
+</head>
+<body>
+    <div  data-th-fragment="header">
+        <h1> Thyleaf in action </h1>
+        <a href = "/users">首页</a>
+    </div>
+    <div>
+    	<p>${users}</p>
+    	<table>
+    	<tr th:each="user : ${users}">
+            <td th:text="${user.id}">0</td>
+            <td th:text="${user.username}">zhansan</td>
+            <td th:text="${user.password}">1988-06-01</td>
+        </tr>
+        </table>
+    </div>
+</body>
+</html>

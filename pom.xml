@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>spring</groupId>
+  <artifactId>data.jpa</artifactId>
+  <packaging>jar</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>data.jpa Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.3.RELEASE</version>
+	</parent>
+ 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<springBoot.groupId>org.springframework.boot</springBoot.groupId>
+	</properties>
+ 
+	<dependencies>
+		<!-- SpringBoot Start -->
+		<dependency>
+			<groupId>${springBoot.groupId}</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- jpa -->
+		<dependency>
+			<groupId>${springBoot.groupId}</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${springBoot.groupId}</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+		
+		<!-- spring security依赖 -->
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<!--QueryDSL支持-->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--QueryDSL支持-->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+        </dependency>
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <optional>true</optional>
+    	</dependency>
+    	<dependency>
+	        <!-- 引入thymeleaf的依赖包 -->
+	        <groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+	</dependencies>
+  <build>
+    <finalName>data.jpa</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
+            </plugin>
+            <!--因为是类型安全的，所以还需要加上Maven APT plugin，使用 APT 自动生成一些类:-->
+            <plugin>
+                    <groupId>com.querydsl</groupId>
+                    <artifactId>querydsl-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                 <goal>jpa-export</goal>
+                            </goals>
+                            <configuration>
+                            <!-- <outputDirectory>target/generated-sources</outputDirectory> -->
+                                <targetFolder>target/generated-sources</targetFolder>
+                                <packages>data.jpa.domain.querydsl</packages>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+        </plugins>
+  </build>
+</project>

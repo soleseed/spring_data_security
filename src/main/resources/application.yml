@@ -1,0 +1,65 @@
+server:
+  #配置端口号
+  port: 8089
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  devtools:
+    restart:
+      enabled: true
+  application: 
+    name: springsample
+#数据源和jpa配置
+  datasource:
+    #数据库相关的配置url  -SSL连接设置为false
+    url: jdbc:mysql://172.20.19.116:3306/springdata?characterEncoding=UTF-8
+    #配置用户名
+    username: root
+    #配置密码
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #下面为连接池相关配置
+    dbcp2:
+      #初始化连接池大小
+      initial-size: 10
+      #陪住最小连接池数
+      min-idle: 10      
+      #配置最大连接池数
+      max-idle: 30
+      #配置获取超时连接的等待时间
+      max-wait-millis: 30000
+      #配置多长时间进行一次检测,检测需要关闭的数据库连接
+      time-between-eviction-runs-millis: 200000
+      #配置连接在连接池的最小生存时间
+      remove-abandoned-on-maintenance: 200000
+      
+  jpa:
+    #配置数据库类型
+    database: MYSQL
+    #配置是否打印sql
+    show-sql: true
+    #Hibernate相关配置 
+    hibernate:
+      #配置级联等级  hibernate ddl auto(validate,create,update,create-drop)
+      ddl-auto: update
+      naming:
+        #命名策略
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate: 
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  #thymelea模板配置
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
+#热部署文件，页面不产生缓存，及时更新
+    cache: false
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**

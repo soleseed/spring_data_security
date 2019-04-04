@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>action is everything</title>
+</head>
+<body>
+    <div  data-th-fragment="header">
+        <h1> Thyleaf in action </h1>
+        <a href = "/users">首页</a>
+    </div>
+    <form ><!--表单提交-->
+	    <a  th:href="@{/test/1}">1</a>
+	    <a href="details.html" th:href="@{/test/2}">2</a>
+	    <a href="details.html" th:href="@{/test/3}">3</a>
+	    <a href="details.html" th:href="@{/test/4}">4</a>
+	    <a href="details.html" th:href="@{/test/5}">5</a>
+	    <p th:text="${host}"> host: </p>
+	</form>
+</body>
+</html>

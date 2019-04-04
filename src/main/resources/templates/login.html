@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>action is everything</title>
+</head>
+<body>
+    <div  data-th-fragment="header">
+        <h1> Thyleaf in action </h1>
+        <a href = "/users">首页</a>
+    </div>
+    <form th:action="@{/login}"  th:method="post"><!--表单提交-->
+	    username:<input type="text" name="username"/>
+	    password:<input type="text" name="password"/><!--th:field="*{name}"相当于id="name" name="name" value="具体的name值"-->
+	    <input type="submit"/>
+	</form>
+    
+</body>
+</html>
