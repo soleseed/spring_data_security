@@ -26,6 +26,18 @@ import data.jpa.service.UserService;
 @EnableGlobalMethodSecurity(prePostEnabled = true) //  启用方法级别的权限认证
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	/**
+	 * 1.spring security 通过@EnableWebSecurity 注解 注入bean “WebSecurityConfiguration”
+	 * <br>
+	 * 2.WebSecurityConfiguration 执行方法注解 @Autowired(required =
+	 * false)setFilterChainProxySecurityConfigurer,构造websecurity对象，加载webSecurityConfigurers（即继承WebSecurityConfigurerAdapter的类）
+	 * <br>
+	 * 3.WebSecurityConfiguration 执行方法注解 @Bean(name =
+	 * AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME),通过websecurity.build()构造springSecurityFilter过滤连（实现类filterChainProxy）
+	 * --websecurity.build()分init configure performBuild 3步 <br>
+	 * ----init, websecurity的init过程中调用webSecurityConfigurerAdapter 的init
+	 */
+
 	/*
 	 * 主要讲里面核心流程的两个。
 	 * 首先，权限管理离不开登陆验证的，所以登陆验证拦截器AuthenticationProcessingFilter要讲；还有就是对访问的资源管理吧，
@@ -106,6 +118,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//		web.ignoring().antMatchers("/loginFail");
 	}
 
+	/*
+	 * 这两个都是继承WebSecurityConfigurerAdapter后重写的方法
+	 * http.permitAll不会绕开springsecurity验证，相当于是允许该路径通过 web.ignoring是直接绕开spring
+	 * security的所有filter，直接跳过验证
+	 */
+
 	/************
 	 * https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#sample-apps
 	 ************/
@@ -117,7 +135,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//session失效后跳转
 		http.sessionManagement().invalidSessionUrl("/");
 		//只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面
-		http.sessionManagement().maximumSessions(1).expiredUrl("/");
+		http.sessionManagement().maximumSessions(1).expiredUrl("/");//.sessionRegistry(sessionRegistry);
 		//		http
 		//        .authorizeRequests()                                                                1
 		//            .antMatchers("/resources/**", "/signup", "/about").permitAll()                  2
@@ -139,7 +157,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/test/2").hasRole("role3");
 		//				.formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
 		//				.permitAll();
-		http.csrf().disable().authorizeRequests().antMatchers("/test/1").permitAll()//任何请求,登录后可以访问
+		http.csrf().disable().authorizeRequests().antMatchers("/login", "/test/1").permitAll()//任何请求,登录后可以访问
 				.anyRequest().authenticated().and().formLogin().loginPage("/login") //登录页面用户任意访问
 				.successForwardUrl("/loginSuccess").failureForwardUrl("/loginFail").and().logout().permitAll(); //注销行为任意访问
 		//http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
